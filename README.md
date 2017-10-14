@@ -5,7 +5,7 @@ Proposal: `Object.compose` (composable prototypal Inheritance)
 
 It is known that `Object.assign` is 
 [not suitable](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/assign#Description)
-for *Object Composition*. By design, which I had to learn the hard way. I tried to do this:
+for *Prototype Composition*. By design, which I had to learn the hard way. I tried to do this:
 
 ```javascript
 import EventMachine from './libs/event-machine';
