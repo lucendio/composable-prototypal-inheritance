@@ -1,4 +1,4 @@
-Proposal: `Object.compose` (composable prototypal Inheritance)
+Proposal: `Object.compose` (composed prototypal Inheritance)
 ==============================================================
 
 
@@ -70,7 +70,7 @@ I was looking for - a 'fixed' version of `Object.assign`.
 ### Why?
 
 +   all the behaviour of inheritance that got syntax-sugared by the introduction of `class` in *ES6* 
-    can be accomplished in a composable and more transparent and explicit way with `Object.compose`
+    can be accomplished in a composing and more transparent and explicit way with `Object.compose`
 +   provides a fully working way of merging not only object instances but complete prototypes, 
     which, at the end of the day, is still what's powering `class`es under the hood.
     
