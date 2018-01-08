@@ -9,7 +9,6 @@ for *Prototype Composition*. By design, which I had to learn the hard way. I tri
 
 ```javascript
 import EventMachine from './libs/event-machine';
-import ReactiveStateMachine from './libs/reactive-state-machine';
 
 
 function RtcData( id ){
@@ -25,14 +24,14 @@ function RtcData( id ){
 }
 
 // (!!!) NOTE: 'assign' does not work, the proposed 'compose' would
-Object.assign( RtcData.prototype, EventMachine.prototype, ReactiveStateMachine.prototype, {
+Object.assign( RtcData.prototype, EventMachine.prototype, {
    
     constructor: RtcData,
     
     get id(){
         const self = this;
         const prefix = 'fasel';
-        return `${prefix}-${self._id}`;
+        return `${ prefix }-${ self._id }`;
     },
     
     send( /* args */ ){
@@ -43,28 +42,35 @@ Object.assign( RtcData.prototype, EventMachine.prototype, ReactiveStateMachine.p
 
 
 
-const rtData = new RtData('foobar');
-console.log(rtData.id); // prints 'undefined' or throws, instead of 'foobar'
+// the following log statements print 'undefined' or throw, instead of 'fasel-foobar', 
+// because getter and setter methods won't get copied over by the 'assign' function
 
-rtData.on('someEvent', function(e) {
+const rtData = new RtData( 'foobar' );
+console.log( rtData.id ); 
+
+rtData.on( 'someEvent', function( e ) {
     const rtDataContext = this;
-    console.log(rtDataContext.id); // prints 'undefined' or throws, instead of 'foobar' 
+    console.log( rtDataContext.id ); 
 });
 ```
 
-Obviously it won't work. While searching for the root cause of this, I also found the proposal of 
+*(Note: this example code originates in [this](https://github.com/lucendio/meteor_rtc) project)*
+
+[This behaviour is intended in JavaScript](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/assign#Description). 
+During my research regarding this 'issue', I discovered the proposal for  
 [`Object.getOwnPropertyDescriptors`](https://github.com/tc39/proposal-object-getownpropertydescriptors)
-for a future version of ECMAScript. At the bottom of the `README.md` the author outlines an 
+scheduled to be released in the 2017th version of ECMAScript. At the bottom of the `README.md` the 
+author outlines an 
 [example](https://github.com/tc39/proposal-object-getownpropertydescriptors#illustrative-examples)
 which takes `Object.getOwnPropertyDescriptors` a step further and enables exactly the behaviour 
-I was looking for - a *fixed* version of `Object.assign`.
+I was looking for - a 'fixed' version of `Object.assign`.
 
 
 
 ### Why?
 
 +   all the behaviour of inheritance that got syntax-sugared by the introduction of `class` in *ES6* 
-    can be accomplished in a composable and more transparent way with `Object.compose`
+    can be accomplished in a composable and more transparent and explicit way with `Object.compose`
 +   provides a fully working way of merging not only object instances but complete prototypes, 
     which, at the end of the day, is still what's powering `class`es under the hood.
     

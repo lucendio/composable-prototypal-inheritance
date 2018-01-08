@@ -7,10 +7,6 @@
 (function( globalNamespace ){
     'use strict';
 
-    if( typeof Array.from !== 'function' ){
-        throw new Error('Incompatible ES version - Array.from required');
-    }
-
     const Object = globalNamespace.Object;
 
     // Step 1: polyfilling dependencies
@@ -80,7 +76,7 @@
         });
     }
 
-    // Step 2: adding Object.merge, to fix Object.assign (which does not copy setters & getters)
+    // Step 2: adding Object.compose, to fix Object.assign (which does not copy setters & getters)
     if( !Object.hasOwnProperty( 'compose' ) ){
         Object.compose = function compose(target, ...sources) {
             sources.forEach(( source  )=>{
